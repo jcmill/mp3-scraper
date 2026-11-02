@@ -6,8 +6,14 @@ const path = require('path');
 
 // Accept URL from terminal or use a default URL
 const url = process.argv[2] || 'https://example.com';
-const downloadLimit = process.argv[3]
-  ? parseInt(process.argv[3], 10) : Infinity;
+
+const downloadStart = process.argv[3]
+  ? parseInt(process.argv[3], 10) - 1
+  : 0;
+
+const downloadLimit = process.argv[4]
+  ? parseInt(process.argv[4], 10)
+  : Infinity;
 
 // Download directory
 const downloadDir = path.join(__dirname, 'downloads');
@@ -68,7 +74,7 @@ async function scrapePage() {
 
     const selectedLinks = mp3Links
       .toArray()
-      .slice(0, downloadLimit);
+      .slice(downloadStart, downloadStart + downloadLimit);
 
     console.log(`Downloading ${selectedLinks.length} MP3 files.`);
 
